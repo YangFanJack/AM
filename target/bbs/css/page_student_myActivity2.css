@@ -1,0 +1,161 @@
+.content{
+	/*height: 1000px;*/
+	    padding-bottom: 200px;
+}
+.navBar{
+	width: 180px;
+	float: left;
+	text-align: center;
+
+}
+.navBar p {
+	height: 35px;
+	text-align: center;
+	background-color:slategrey;color: white;
+	border-radius:5px ;
+	margin-bottom: -1px;
+}
+.navBar button{
+	width: 180px;
+	height: 35px;
+	margin-top: 5px;
+}
+.tip{
+	float: left;
+	margin-left: 5px;
+	height: 36px;
+}
+.tip span:first-child{
+	text-align: center;
+	float: left;
+	display: block;
+	width: 300px;
+	height: 30px;
+	/*border: 1px solid;*/
+}
+.tip span:last-child{
+	text-align: center;
+	display: block;
+	width: 500px;
+	height: 30px;
+	/*border: 1px solid;*/
+	float: right;
+	margin-left: 15px;
+}
+.detailActivity{
+	text-align: center;
+	float: right;
+	width: 815px;
+	/*border: 1px solid;*/
+	margin-left:5px ;
+}
+.detailActivity span{
+	text-align: left;
+	display: block;
+	width: 295px;
+	height: 40px;
+	/*border: 1px solid;*/
+	margin-bottom: 10px;
+	margin-top: 10px;
+
+}
+.detailActivity span:nth-child(even){
+	float: left;
+	margin-left: 80px;
+
+}
+.detailActivity span:nth-child(odd){
+	float: right;
+	margin-right:80px ;
+}
+
+.detailActivity div{
+	resize: none;
+	float: left;
+	width: 653px;
+	height: 130px;
+	margin-left: 80px;
+	border: none;
+	margin-bottom: 10px;
+	background-color: white;
+}
+.signin{
+	float: right;
+	width: 815px;
+	border: 1px solid;
+	margin-left:5px ;
+	margin-top: 20px;
+	padding: 1px 10px 10px 10px ;
+	position: relative;
+}
+.signin span{
+	display: block;
+	margin-bottom:15px ;
+}
+.signin button{
+	position: absolute;
+	width: 95px;
+	height: 35px;
+	top:0px;
+	right: 0px;
+}
+.studentState{
+	float: left;
+	margin-left:10px ;
+	width: 250px;
+	height: 40px;
+}
+.studentState span{
+	display: block;
+	float: left;
+	width: 90px;
+	height: 35px;
+	border: 1px solid;
+	margin-left: -1px;
+}
+.leavemessage{
+	float: right;
+	width: 815px;
+	border: 1px solid;
+	margin-left:5px ;
+	margin-top: 20px;
+}
+.leavemessage span{
+	margin-left: 5px;
+}
+
+.leavemessage textarea{
+	resize: none;
+	float: left;
+	width: 815px;
+	height: 130px;
+	margin:0px -1px 20px -1px;
+	
+}
+.leavemessage button{
+	width: 815px;
+	height: 50px;
+	margin: 0 -1px -1px -1px;
+}
+.detailmessage{
+
+	width: 815px;
+	margin: 20px 0px 20px 20px;
+}
+.detailmessage span{
+	display: block;
+	/*border: 1px solid;*/
+	float: left;
+	height: 80px;
+	margin: 0 10px 10px 0px;
+	padding-left: 2px;
+}
+.detailmessage span:first-child{
+	width: 150px;
+}
+.detailmessage span:nth-child(2){
+	width: 150px;
+}
+.detailmessage span:last-child{
+	width: 400px;
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jack.dao.MessageDao">
+
+    <!--    开启二级缓存-->
+    <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+
+    <!--    新增活动-->
+    <insert id="insertMessage" parameterType="Message">
+        INSERT INTO `message` (`mesCategory`,`mesContent`,`isRead`,`mesTime`,`stuId`)
+        VALUES(#{mesCategory},#{mesContent},#{isRead},#{mesTime},#{stuId.id});
+    </insert>
+
+    <!--    审核前更改活动&审核通过-->
+    <update id="updateMessage" parameterType="Message">
+        UPDATE `message`
+        <set>
+            <if test="isRead != 0">
+                `isRead` = #{isRead}
+            </if>
+        </set>
+        WHERE `id` = #{id};
+    </update>
+
+    <!--    多消息分页查询-->
+    <select id="selectMessages" parameterType="map" resultType="Message">
+        select * from `message`
+        <where>
+            <if test="mesContent != null">
+                and mesContent like #{mesContent}
+            </if>
+            <if test="stuId != null">
+                and stuId = #{stuId}
+            </if>
+        </where>
+        order by message.id DESC
+        <if test="start != null and pageSize !=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+    <!--    计算数据总条数-->
+    <select id="selectMessagesCount" parameterType="map" resultType="int">
+        select count(message.id) from `message`
+        <where>
+            <if test="mesContent != null">
+                and mesContent like #{mesContent}
+            </if>
+            <if test="stuId != null">
+                and stuId = #{stuId}
+            </if>
+        </where>
+    </select>
+
+    <!--    删除Message-->
+    <delete id="deleteMessage" parameterType="int">
+        delete from message where id = #{id}
+    </delete>
+
+</mapper>

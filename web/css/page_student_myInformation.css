@@ -1,0 +1,101 @@
+.content{
+	/*height: 1000px;*/
+	    padding-bottom: 200px;
+}
+.tip{
+	float: left;
+	margin-left: 5px;
+	height: 36px;
+}
+.tip span:first-child{
+	float: left;
+	display: block;
+	width: 300px;
+	height: 30px;
+	/*border: 1px solid;*/
+}
+.tip span:last-child{
+	text-align: center;
+	display: block;
+	width: 500px;
+	height: 30px;
+	/*border: 1px solid;*/
+	float: right;
+	margin-left: 15px;
+}
+.navBar{
+	width: 180px;
+	float: left;
+	text-align: center;
+
+}
+.navBar p {
+	height: 35px;
+	text-align: center;
+	background-color:slategrey;color: white;
+	border-radius:5px ;
+	margin-bottom: -1px;
+}
+.navBar button{
+	width: 180px;
+	height: 35px;
+	margin-top: 5px;
+}
+.detailInformation{
+	width:815px;
+	float: right;
+	/*border:1px solid ;*/
+	margin-top: 5px;
+}
+.detailInformation span{
+	display: block;
+	width: 150px;
+	height: 50px;
+	/*border: 1px solid;*/
+	margin-bottom: 10px;
+	margin-top: 10px;
+
+}
+.detailInformation span:nth-child(even){
+	float: left;
+	margin-left: 200px;
+
+}
+.detailInformation span:nth-child(odd){
+	float: right;
+	margin-right:200px ;
+}
+.password{
+	margin-top: 10px;
+	float: left;
+	width: 155px;
+	height: 50px;
+	margin-left: 200px;
+}
+.password input{
+	display:inline-block;
+	float: left;
+	width: 100px;
+	height: 50px;
+	border: 1px solid #0077AA;
+	background-color: white;
+}
+.password button{
+	float: right;
+	width: 50px;
+	height: 50px;
+	margin-left: 2px;
+}
+.reset{
+	text-align: center;
+	width:820px;
+	float: right;
+	margin-top: 5px;
+}
+.reset input{
+	float: left;
+	margin-bottom:5px ;
+	width: 420px;
+	height: 35px;
+	margin-left:200px ;
+}

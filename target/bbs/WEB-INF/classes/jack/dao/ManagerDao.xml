@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jack.dao.ManagerDao">
+
+    <!--    开启二级缓存-->
+    <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+
+    <!--    查询管理员-->
+    <select id="selectManager" parameterType="map" resultType="Manager">
+        select * from `manager`
+        <where>
+            <if test="id != null and id != 0">
+                id = #{id}
+            </if>
+            <if test="collegeName != null">
+                and collegeName = #{collegeName}
+            </if>
+            <if test="username != null">
+                and username = #{username}
+            </if>
+            <if test="password != null">
+                and password = #{password}
+            </if>
+        </where>
+    </select>
+</mapper>

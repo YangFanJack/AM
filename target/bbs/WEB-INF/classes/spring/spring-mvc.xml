@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd
+   http://www.springframework.org/schema/mvc
+   https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 配置SpringMVC -->
+    <!-- 2.静态资源默认servlet配置-->
+    <mvc:default-servlet-handler/>
+    <!-- 1.开启SpringMVC注解驱动 -->
+    <mvc:resources location="/js/" mapping="/js/**" />
+    <mvc:resources location="/css/" mapping="/css/**" />
+    <mvc:resources location="/img/" mapping="/img/**" />
+    <mvc:resources location="/bootstrap/" mapping="/bootstrap/**" />
+    <mvc:resources location="/tinymce/" mapping="/tinymce/**" />
+    <mvc:annotation-driven />
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 拦截所有mvc控制器 -->
+            <mvc:mapping path="/**"/>
+            <!--mvc:exclude-mapping是另外一种拦截，它可以在你后来的测试中对某个页面进行不拦截，这样就不用在
+               LoginInterceptor的preHandler方法里面获取不拦截的请求uri地址了(优选) -->
+            <mvc:exclude-mapping path="/initIndex" />
+            <mvc:exclude-mapping path="/showAllNoticeByPage" />
+            <mvc:exclude-mapping path="/showDetailActivity" />
+            <mvc:exclude-mapping path="/studentLogin" />
+            <mvc:exclude-mapping path="/studentRegister" />
+            <mvc:exclude-mapping path="/managerLogin" />
+            <mvc:exclude-mapping path="/checkCode" />
+            <mvc:exclude-mapping path="/**/js/*"/>
+            <mvc:exclude-mapping path="/**/css/*"/>
+            <mvc:exclude-mapping path="/**/img/*"/>
+            <mvc:exclude-mapping path="/**/bootstrap/*"/>
+            <mvc:exclude-mapping path="/**/tinymce/*"/>
+            <bean class="jack.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- 3.配置jsp 显示ViewResolver视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!-- 4.扫描web相关的bean -->
+    <context:component-scan base-package="jack.controller" />
+
+</beans>

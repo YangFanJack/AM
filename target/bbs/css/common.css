@@ -1,0 +1,118 @@
+html{
+    height: 100%;
+}
+body{
+    position:relative;
+    min-height: 100%;
+}
+
+.w{      /*固定元素宽度*/
+    width: 1000px;
+    margin: 0px auto;
+}
+/*解决高度塌陷问题和父子元素垂直外边距重叠问题*/
+
+
+.clearfix:after,
+.clearfix:before{
+content: " "; /**//*内容为“.”就是一个英文的句号而已。也可以不写。*/
+display: block; /**//*加入的这个元素转换为块级元素。*/
+clear: both; /**//*清除左右两边浮动。*/
+visibility: hidden; /**//*可见度设为隐藏。注意它和display:none;是有区别的。visibility:hidden;仍然占据空间，只是看不到而已；*/
+line-height: 0; /**//*行高为0；*/
+height: 0; /**//*高度为0；*/
+font-size:0;
+}
+
+
+.header{
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.logo{
+    margin-left: 15px;
+    width: 387px;
+    height: 80px;
+}
+.logo img{
+	width: 100%;
+	height: 100%;
+}
+.nav{
+	float: right;
+	width: 598px;
+}
+.nav-left{
+	float: left;
+	margin-left:20px ;
+	/*padding-top:40px ;*/
+}
+.nav button{
+	width: 100px;
+	height: 40px;
+}
+.nav-left button{
+	float: left;
+	height: 80px;
+	margin-left: 4px;
+	border-right:1px  ;
+	background-color: white;
+	/*margin-top: 40px;*/
+	/*border-bottom: 1px dashed;*/
+}
+.nav-left button:hover{
+	background-color:skyblue;
+
+}
+
+.nav-left button:last-of-type{
+	/*border: none;*/	
+}
+.nav-right{
+	float: right;
+	margin-left:20px ;
+	padding-top:30px ;
+}
+.nav-right span{
+	display: block;
+	margin-top: -30px;
+	margin-bottom: 20px;	
+}
+/*.nav-right a{
+	font: bold 14px georgia;
+}*/
+
+/*底部栏样式*/
+
+.footer{
+    height: 173px;
+    background-color: #333;
+    border-top: 10px solid #4c4c4c;
+    position:absolute;
+    width: 1000px;
+    left: 0; 
+    right: 0; 
+    bottom: 0;
+    margin: auto;
+
+}
+
+.footer a,.footer p{
+    color: #999;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.footer .w{
+    padding-top: 30px;
+}
+
+.footer p{
+    text-align: center;
+}
+
+.footer a:hover{
+    color: #cccaca;
+    text-decoration: underline;
+}

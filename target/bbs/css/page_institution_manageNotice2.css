@@ -1,0 +1,81 @@
+.content{
+	/*height: 1000px;*/
+	    padding-bottom: 200px;
+}.tip {
+	float: left;
+	/*margin-left: 5px;*/
+	height: 36px;
+}
+
+.tip span:first-child {
+	float: left;
+	display: block;
+	width: 300px;
+	height: 30px;
+	/*border: 1px solid;*/
+}
+
+.tip span:last-child {
+	text-align: center;
+	display: block;
+	width: 500px;
+	height: 30px;
+	/*border: 1px solid;*/
+	float: right;
+	margin-left: 15px;
+}
+
+.navBar {
+	width: 180px;
+	float: left;
+	text-align: center;
+}
+
+.navBar p {
+	height: 35px;
+	text-align: center;
+		background-color:slategrey;
+	color: white;
+	padding-top:5px ;
+	border-radius:5px ;
+	margin-bottom: -1px;
+}
+.navBar button{
+	width: 180px;
+	height: 35px;
+	margin-top: 5px;
+}
+.noticeDetail{
+	float: right;
+	width: 815px;
+	text-align: center;
+}
+.noticeDetail h3{
+	text-align: left;
+	 padding:0px 55px 0px 55px;"
+}
+.noticeDetail span:nth-child(2){
+	text-align: left;
+	display: block;
+	float: left;
+	width: 220px;
+	height: 35px;
+	/*border: 1px solid;*/
+	margin: 15px 25px 5px 150px;
+}
+.noticeDetail span:nth-child(3){
+		text-align: left;
+	display: block;
+	float: right;
+	width: 220px;
+	height: 35px;
+	/*border: 1px solid;*/
+	margin: 15px 150px 5px 15px;
+}
+.noticeDetail textarea{
+	resize: none;
+	width: 515px;
+	height: 150px;
+	background-color: white;
+	border: none;
+}

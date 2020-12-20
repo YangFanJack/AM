@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--    <context:property-placeholder location="classpath:*.properties"/>-->
+    <!-- 扫描service相关的bean -->
+<!--    如果扫描到文件中带有@Service,@Component,@Repository,@Controller等这些注解的类，则把这些类注册为bean-->
+    <context:component-scan base-package="jack.service" />
+    <!--BookServiceImpl注入到IOC容器中-->
+<!--    此处也可以用注解实现：分别是@autowired()和@Service-->
+<!--    service层和controller层都可以通过注解实现xml中的工作-->
+    <bean id="ActivityServiceImpl" class="jack.service.impl.ActivityServiceImpl">
+        <property name="activityDao" ref="activityDao"/>
+        <property name="studentDao" ref="studentDao"/>
+        <property name="managerDao" ref="managerDao"/>
+    </bean>
+    <bean id="ManagerServiceImpl" class="jack.service.impl.ManagerServiceImpl">
+        <property name="managerDao" ref="managerDao"/>
+    </bean>
+    <bean id="MessageServiceImpl" class="jack.service.impl.MessageServiceImpl">
+        <property name="messageDao" ref="messageDao"/>
+    </bean>
+    <bean id="NoticeServiceImpl" class="jack.service.impl.NoticeServiceImpl">
+        <property name="noticeDao" ref="noticeDao"/>
+    </bean>
+    <bean id="StudentServiceImpl" class="jack.service.impl.StudentServiceImpl">
+        <property name="studentDao" ref="studentDao"/>
+    </bean>
+    <bean id="Stu_actServiceImpl" class="jack.service.impl.Stu_actServiceImpl">
+        <property name="stu_actDao" ref="stu_actDao"/>
+        <property name="activityDao" ref="activityDao"/>
+        <property name="studentDao" ref="studentDao"/>
+    </bean>
+    <bean id="MailSenderServiceImpl" class="jack.service.impl.MailSenderServiceImpl">
+        <property name="mailSender" ref="mailSender"/>
+    </bean>
+    <bean id="OnTimeServiceImpl" class="jack.service.impl.OnTimeServiceImpl">
+        <property name="stu_actDao" ref="stu_actDao"/>
+        <property name="messageDao" ref="messageDao"/>
+    </bean>
+
+<!--    发送邮件-->
+    <!--邮件配置-->
+    <!--配置邮件接口-->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.smtp.host}"/>
+        <property name="username" value="${mail.smtp.username}"/>
+        <property name="password" value="${mail.smtp.password}"/>
+        <property name="defaultEncoding" value="${mail.smtp.defaultEncoding}"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+                <prop key="mail.smtp.timeout">${mail.smtp.timeout}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+<!--    还可以导入aop横切织入包-->
+
+</beans>

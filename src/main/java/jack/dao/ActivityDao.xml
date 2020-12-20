@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jack.dao.ActivityDao">
+
+    <!--    开启二级缓存-->
+    <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+
+    <!--    查询活动详情1（团支书申请）-->
+    <resultMap id="ActStu" type="Activity">
+        <result property="id" column="aid"/>
+        <result property="orgCategory" column="orgCategory"/>
+        <result property="actTitle" column="actTitle"/>
+        <result property="actContent" column="actContent"/>
+        <result property="actBeginTime" column="actBeginTime"/>
+        <result property="actEndTime" column="actEndTime"/>
+        <result property="getPoints" column="getPoints"/>
+        <result property="actPlace" column="actPlace"/>
+        <result property="numLevel" column="numLevel"/>
+        <result property="enrollEndTime" column="enrollEndTime"/>
+        <result property="category" column="category"/>
+        <result property="verifyStatus" column="verifyStatus"/>
+        <result property="enrollNum" column="enrollNum"/>
+        <result property="signNum" column="signNum"/>
+        <association property="tuanId" javaType="Student">
+            <result property="id" column="sid"/>
+            <result property="_class" column="class"/>
+        </association>
+    </resultMap>
+    <select id="selectActivity1" parameterType="map" resultMap="ActStu">
+        SELECT activity.id aid,`orgCategory`,`actTitle`,`actContent`,`actBeginTime`,`actEndTime`,`getPoints`,
+        `actPlace`,`numLevel`,`enrollEndTime`,`category`,`verifyStatus`,`enrollNum`,`signNum`,
+        student.id sid,student.class
+        FROM `activity`,`student`
+        WHERE activity.tuanId=student.id AND activity.id=#{id}
+    </select>
+
+    <!--    查询活动详情2（学院管理员申请）-->
+    <resultMap id="ActMan" type="Activity">
+        <result property="id" column="aid"/>
+        <result property="orgCategory" column="orgCategory"/>
+        <result property="actTitle" column="actTitle"/>
+        <result property="actContent" column="actContent"/>
+        <result property="actBeginTime" column="actBeginTime"/>
+        <result property="actEndTime" column="actEndTime"/>
+        <result property="getPoints" column="getPoints"/>
+        <result property="actPlace" column="actPlace"/>
+        <result property="numLevel" column="numLevel"/>
+        <result property="enrollEndTime" column="enrollEndTime"/>
+        <result property="category" column="category"/>
+        <result property="verifyStatus" column="verifyStatus"/>
+        <result property="enrollNum" column="enrollNum"/>
+        <result property="signNum" column="signNum"/>
+        <association property="managerId" javaType="Manager">
+            <result property="id" column="mid"/>
+            <result property="collegeName" column="collegeName"/>
+        </association>
+    </resultMap>
+    <select id="selectActivity2" parameterType="map" resultMap="ActMan">
+        SELECT activity.id aid,`orgCategory`,`actTitle`,`actContent`,`actBeginTime`,`actEndTime`,`getPoints`,
+        `actPlace`,`numLevel`,`enrollEndTime`,`category`,`verifyStatus`,`enrollNum`,`signNum`,
+        manager.id mid,manager.collegeName
+        FROM `activity`,`manager`
+        WHERE activity.managerId=manager.id AND activity.id=#{id}
+    </select>
+
+    <!--    新增活动-->
+    <insert id="insertActivity" parameterType="Activity">
+        insert into `activity` (`orgCategory`,
+        <if test="tuanId.id != null and tuanId.id != 0">
+            `tuanId`,
+        </if>
+        <if test="managerId.id != null and managerId.id != 0">
+            `managerId`,
+        </if>
+        `actTitle`,`actContent`,`actBeginTime`,`actEndTime`,`getPoints`,
+        `actPlace`,`numLevel`,`enrollEndTime`,`category`,`verifyStatus`,`enrollNum`,`signNum`)
+        values (#{orgCategory},
+        <if test="tuanId.id != null and tuanId.id != 0">
+            #{tuanId.id},
+        </if>
+        <if test="managerId.id != null and managerId.id != 0">
+            #{managerId.id},
+        </if>
+        #{actTitle}, #{actContent}, #{actBeginTime}, #{actEndTime}, #{getPoints},
+        #{actPlace}, #{numLevel}, #{enrollEndTime}, #{category}, #{verifyStatus}, #{enrollNum}, #{signNum})
+    </insert>
+
+    <!--    审核前更改活动&审核通过-->
+    <update id="updateActivity" parameterType="Activity">
+        UPDATE `activity`
+        <set>
+            <if test="verifyStatus != 0">
+                `verifyStatus` = #{verifyStatus}
+            </if>
+            <if test="verifyStatus == 0">
+                `orgCategory` = #{orgCategory},`tuanId` = #{tuanId.id},`actTitle` = #{actTitle},`actContent` = #{actContent},
+                `actBeginTime` = #{actBeginTime},`actEndTime` = #{actEndTime},`getPoints` = #{getpoints},`actPlace` = #{actPlace},`numLevel` = #{numLevel},
+                `enrollEndTime` = #{enrollEndTime},`category` = #{category}
+            </if>
+        </set>
+        WHERE `id` = #{id};
+    </update>
+
+
+    <!--    多贴子分页查询-->
+    <select id="selectActivities1" parameterType="map" resultType="Activity">
+        select activity.id ,`orgCategory`,`actTitle`,`actContent`,`actBeginTime`,`actEndTime`,`getPoints`,
+        `actPlace`,`numLevel`,`enrollEndTime`,`category`,`verifyStatus`,`enrollNum`,`signNum`
+        from `activity`
+        <if test="tuanId != null and tuanId != 0">
+            ,`student`
+        </if>
+        <if test="managerId != null and managerId != 0">
+            ,`manager`
+        </if>
+        <where>
+            <if test="actTitle != null">
+                actTitle like #{actTitle}
+            </if>
+            <if test="verifyStatus != null and verifyStatus != 0">
+                and verifyStatus = #{verifyStatus}
+            </if>
+            <if test="tuanId != null and tuanId != 0">
+                and `student`.id = activity.tuanId and activity.tuanId = #{tuanId}
+            </if>
+            <if test="managerId != null and managerId != 0">
+                and `manager`.id = activity.managerId and activity.managerId = #{managerId}
+            </if>
+        </where>
+        order by activity.id DESC
+        <if test="start != null and pageSize !=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+    <!--    计算数据总条数-->
+    <select id="selectActivitiesCount1" parameterType="map" resultType="int">
+        select count(activity.id) from `activity`
+        <if test="tuanId != null and tuanId != 0">
+            ,`student`
+        </if>
+        <if test="managerId != null and managerId != 0">
+            ,`manager`
+        </if>
+        <where>
+            <if test="actTitle != null">
+                actTitle like #{actTitle}
+            </if>
+            <if test="verifyStatus != null and verifyStatus != 0">
+                and verifyStatus = #{verifyStatus}
+            </if>
+            <if test="tuanId != null and tuanId != 0">
+                and `student`.id = activity.tuanId and activity.tuanId = #{tuanId}
+            </if>
+            <if test="managerId != null and managerId != 0">
+                and `manager`.id = activity.managerId and activity.managerId = #{managerId}
+            </if>
+        </where>
+    </select>
+
+
+    <!--    多活动学院活动分页查询-->
+    <select id="selectActivities2a" parameterType="map" resultType="Activity">
+        select activity.id,`orgCategory`,`actTitle`,`actContent`,`actBeginTime`,`actEndTime`,`getPoints`,
+        `actPlace`,`numLevel`,`enrollEndTime`,`category`,`verifyStatus`,`enrollNum`,`signNum`
+        from `activity`
+        <where>
+            managerId = #{managerId}
+            <if test="actTitle != null">
+                and actTitle like #{actTitle}
+            </if>
+            <if test="verifyStatus != null and verifyStatus != 0">
+                and verifyStatus = #{verifyStatus}
+            </if>
+            <if test="category != null and category != 0">
+                and category = #{category}
+            </if>
+        </where>
+        order by activity.id DESC
+        <if test="start != null and pageSize !=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+
+
+    <!--    计算数据总条数-->
+    <select id="selectActivitiesCount2a" parameterType="map" resultType="int">
+        select count(activity.id) from `activity`
+        <where>
+            managerId = #{managerId}
+            <if test="actTitle != null">
+                and actTitle like #{actTitle}
+            </if>
+            <if test="verifyStatus != null and verifyStatus != 0">
+                and verifyStatus = #{verifyStatus}
+            </if>
+            <if test="category != null and category != 0">
+                and category = #{category}
+            </if>
+        </where>
+    </select>
+
+    <!--    多活动班级活动分页查询-->
+    <select id="selectActivities2b" parameterType="map" resultType="Activity">
+        select activity.id,`orgCategory`,`actTitle`,`actContent`,`actBeginTime`,`actEndTime`,`getPoints`,
+        `actPlace`,`numLevel`,`enrollEndTime`,`category`,`verifyStatus`,`enrollNum`,`signNum`
+        from `activity`,`student`
+        <where>
+            `student`.id = activity.tuanId and student.managerId = #{managerId}
+            <if test="actTitle != null">
+                and actTitle like #{actTitle}
+            </if>
+            <if test="verifyStatus != null and verifyStatus != 0">
+                and verifyStatus = #{verifyStatus}
+            </if>
+            <if test="category != null and category != 0">
+                and category = #{category}
+            </if>
+        </where>
+        order by activity.id DESC
+        <if test="start != null and pageSize !=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+
+
+    <!--    计算数据总条数-->
+    <select id="selectActivitiesCount2b" parameterType="map" resultType="int">
+        select count(activity.id) from `activity`,`student`
+        <where>
+            `student`.id = activity.tuanId and student.managerId = #{managerId}
+            <if test="actTitle != null">
+                and actTitle like #{actTitle}
+            </if>
+            <if test="verifyStatus != null and verifyStatus != 0">
+                and verifyStatus = #{verifyStatus}
+            </if>
+            <if test="category != null and category != 0">
+                and category = #{category}
+            </if>
+        </where>
+    </select>
+
+
+
+    <!--    删除Activity-->
+    <delete id="deleteActivity" parameterType="int">
+        delete from activity where id = #{id}
+    </delete>
+</mapper>

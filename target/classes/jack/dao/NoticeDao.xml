@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jack.dao.NoticeDao">
+
+    <!--    开启二级缓存-->
+    <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+
+
+    <!--    多贴子分页查询-->
+    <resultMap id="Not" type="Notice">
+        <result property="id" column="nid"/>
+        <result property="noticeTitle" column="noticeTitle"/>
+        <result property="noticeContent" column="noticeContent"/>
+        <result property="noticeTime" column="noticeTime"/>
+        <association property="managerId" javaType="Manager">
+            <result property="id" column="mid"/>
+            <result property="collegeName" column="collegeName"/>
+        </association>
+    </resultMap>
+    <select id="selectNotices" parameterType="map" resultMap="Not">
+        select notice.id nid,`noticeTitle`,`noticeContent`,`noticeTime`,manager.id mid,collegeName
+        from `notice`,`manager`
+        <where>
+            notice.managerId=manager.id
+            <if test="noticeTitle != null">
+                and noticeTitle like #{noticeTitle}
+            </if>
+            <if test="managerId != null and managerId != 0">
+                and managerId = ${managerId}
+            </if>
+        </where>
+        order by notice.id DESC
+        <if test="start != null and pageSize !=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+
+    <!--    计算数据总条数-->
+    <select id="selectNoticesCount" parameterType="map" resultType="int">
+        select count(notice.id) from `notice`
+        <where>
+            <if test="noticeTitle != null">
+                noticeTitle like #{noticeTitle}
+            </if>
+        </where>
+    </select>
+
+    <!--    删除通知-->
+    <delete id="deleteNotice" parameterType="int">
+        delete from notice where id = #{id}
+    </delete>
+
+    <!--    新增通知-->
+    <insert id="insertNotice" parameterType="Notice">
+        INSERT INTO `notice` (`noticeTitle`,`noticeContent`,`noticeTime`,`managerId`)
+        VALUES(#{noticeTitle},#{noticeContent},#{noticeTime},#{managerId.id});
+    </insert>
+
+    <!--    查询通知详情-->
+    <resultMap id="NotMan" type="Notice">
+        <result property="id" column="nid"/>
+        <result property="noticeTitle" column="noticeTitle"/>
+        <result property="noticeContent" column="noticeContent"/>
+        <result property="noticeTime" column="noticeTime"/>
+        <association property="managerId" javaType="Manager">
+            <result property="id" column="mid"/>
+            <result property="collegeName" column="collegeName"/>
+        </association>
+    </resultMap>
+    <select id="selectNotice" parameterType="map" resultMap="NotMan">
+        SELECT notice.id nid,`noticeTitle`,`noticeContent`,`noticeTime`,manager.id mid,manager.collegeName
+        FROM `notice`,`manager`
+        WHERE notice.managerId=manager.id AND notice.id=#{id}
+    </select>
+
+
+</mapper>

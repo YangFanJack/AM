@@ -1,0 +1,75 @@
+.content{
+	/*height: 1000px;*/
+	    padding-bottom: 200px;
+	   background: url(../img/背景.jpg) no-repeat;
+	   background-size: 100% ;
+	  /*background: ;*/
+}
+
+.register {
+	/*display: table;*/
+	float: right;
+	width:365px;
+	text-align: center;
+	margin-top: 5px;
+	margin-right: 35px;
+	background-color: white;
+	border-radius:25px ;
+	padding-top: 15px;
+	padding-bottom:15px ;
+	/*padding-right: 155px;*/
+}
+
+.content >span:first-of-type{
+	padding-left:380px ;
+	text-align: center;
+	float: right;
+	width: 800px;
+	font-size: xx-large;
+	display: block;
+	text-align: center;
+}
+.register *{
+	/*display: block;*/
+}
+.register select {
+	display: block;
+	width: 300px;
+	height: 33px;
+	/*margin: auto;*/
+	margin: 0px 35px 10px 35px;
+	/*margin: auto;*/
+}
+
+.textBox {
+	/*display: block;*/
+	width: 300px;
+	height: 33px;
+	/*margin: auto;*/
+	margin: 0px 30px 10px 35px;
+}
+
+.btn1 {
+	width: 300px;
+	height: 35px;
+	/*margin: auto;*/
+	margin: 0px 35px 10px 35px;
+	/*position: relative;
+	left: 0px;*/
+}
+
+.radio1 {
+	width:50px;
+	height: 13px;
+}
+.zi{
+	/*color: white;*/
+	margin-left: -45px;
+	/*font-size: 150%;*/
+}
+/*.zi1{color: white;*/
+	/*font-size: 150%;*/
+}
+.tishi{
+	font-size: 10%;
+}

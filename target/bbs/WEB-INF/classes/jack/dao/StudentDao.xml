@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jack.dao.StudentDao">
+
+    <!--    开启二级缓存-->
+    <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+
+    <!--    查找某个学生的所有信息-->
+    <resultMap id="sm" type="Student">
+        <result property="id" column="sid"/>
+        <result property="stuNum" column="stuNum"/>
+        <result property="identity" column="identity"/>
+        <result property="isTuan" column="isTuan"/>
+        <result property="name" column="name"/>
+        <result property="_class" column="class"/>
+        <result property="password" column="sp"/>
+        <result property="points" column="points"/>
+        <result property="joinCounts" column="joinCounts"/>
+        <association property="managerId" javaType="Manager">
+            <result property="id" column="mid"/>
+            <result property="collegeName" column="collegeName"/>
+        </association>
+    </resultMap>
+    <select id="selectStudent" parameterType="map" resultMap="sm">
+        select student.id sid,`stuNum`,`identity`,`isTuan`,`name`,`class`,student.password sp,`points`,`joinCounts`,manager.id mid,collegeName
+        from `student`,`manager`
+        <where>
+            student.managerId = manager.id
+            <if test="stuNum != null">
+                and stuNum = #{stuNum}
+            </if>
+            <if test="password != null">
+                and student.password = #{password}
+            </if>
+            <if test="id != null and id != 0">
+                and student.id = #{id}
+            </if>
+            <if test="class != null">
+                and class = #{class} and isTuan = #{isTuan}
+            </if>
+        </where>
+    </select>
+
+    <!--    新增一个学生-->
+    <insert id="insertStudent" parameterType="Student" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `student` (`stuNum`,`identity`,`isTuan`,`name`,`class`,`managerId`,`password`,`points`,`joinCounts`)
+        VALUES(#{stuNum},#{identity},#{isTuan},#{name},#{_class},#{managerId.id},#{password},#{points},#{joinCounts});
+    </insert>
+
+    <!--    更新某个学生的信息（密码）(注册的通知生产学号)-->
+    <update id="updateStudent" parameterType="Student">
+        update `Student`
+        <set>
+            <if test="password != null">
+                password = #{password}
+            </if>
+            <if test="stuNum != null">
+                stuNum = #{stuNum}
+            </if>
+        </set>
+        <where>
+            <if test="id != null and id != 0">
+                id = #{id}
+            </if>
+        </where>
+    </update>
+
+    <!--    多学生分页查询-->
+    <resultMap id="sm2" type="Student">
+        <result property="id" column="sid"/>
+        <result property="stuNum" column="stuNum"/>
+        <result property="identity" column="identity"/>
+        <result property="isTuan" column="isTuan"/>
+        <result property="name" column="name"/>
+        <result property="_class" column="class"/>
+        <result property="password" column="sp"/>
+        <result property="points" column="points"/>
+        <result property="joinCounts" column="joinCounts"/>
+        <association property="managerId" javaType="Manager">
+            <result property="id" column="mid"/>
+            <result property="collegeName" column="collegeName"/>
+        </association>
+    </resultMap>
+    <select id="selectStudents" parameterType="map" resultMap="sm2">
+        select student.id sid,`stuNum`,`identity`,`isTuan`,`name`,`class`,student.password sp,`points`,`joinCounts`,manager.id mid,collegeName
+        from `student`,`manager`
+        <where>
+            student.managerId = manager.id
+            <if test="_class != null">
+                and class = #{_class}
+            </if>
+            <if test="managerId != null and managerId != 0">
+                and managerId = #{managerId}
+            </if>
+        </where>
+        order by student.id DESC
+        <if test="start != null and pageSize !=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+    <!--    计算数据总条数-->
+    <select id="selectStudentsCount" parameterType="map" resultType="int">
+        select count(student.id) from `student`
+        <where>
+            <if test="_class != null">
+                class = #{_class}
+            </if>
+        </where>
+    </select>
+
+</mapper>

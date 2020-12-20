@@ -1,0 +1,117 @@
+.content{
+	/*height: 1000px;*/
+	    padding-bottom: 200px;
+}
+.tip {
+	float: left;
+	margin-left: 5px;
+	height: 36px;
+}
+
+.tip span:first-child {
+	float: left;
+	display: block;
+	width: 300px;
+	height: 30px;
+	/*border: 1px solid;*/
+}
+
+.tip span:last-child {
+	text-align: center;
+	display: block;
+	width: 500px;
+	height: 30px;
+	/*border: 1px solid;*/
+	float: right;
+	margin-left: 15px;
+}
+
+.navBar {
+	width: 180px;
+	float: left;
+	text-align: center;
+}
+
+.navBar p {
+	height: 35px;
+	text-align: center;
+	background-color:slategrey;color: white;
+	border-radius:5px ;
+	margin-bottom: -1px;
+}
+.navBar button{
+	width: 180px;
+	height: 35px;
+	margin-top: 5px;
+}
+.searchMessage {
+	text-align: center;
+	float: right;
+	width: 815px;
+	/*border: 1px solid;*/
+	margin-left: 5px;
+}
+
+.searchMessage input {
+	float: left;
+	display: block;
+	width: 495px;
+	height: 35px;
+	margin: 5px 0 5px 5px;
+}
+
+.searchMessage button {
+	display: block;
+	width: 300px;
+	height: 35px;
+	margin: 5px 5px 5px 0px;
+}
+
+.messageDetail {
+	margin: 35px 0 0 10px;
+	width: 790px;
+	text-align: center;
+	border: 1px solid #269ABC;
+	position: relative;
+}
+.ms{
+	float: left;
+	width: 280px;
+	/*height: px;*/
+}
+.type,
+.time,
+.state {
+	padding-left: 2px;
+	text-align: left;
+	float: left;
+	display: block;
+	height: 35px;
+	width: 250px;
+	/*border: 1px solid;*/
+	margin: 5px 5px 5px 5px;
+}
+
+.messagecontent {
+	height: 125px;
+	width: 350px;
+	float: left;
+	padding-top: 35px;
+	text-align:left ;
+	/*border: 1px solid;*/
+	margin: 5px 5px 5px 0px;
+}
+
+.messageDetail button{
+	float: right;
+	height: 125px;
+	width: 50px;
+	margin: 5px 5px 5px 5px;
+	writing-mode: tb-lr;
+}
+
+.fenye {
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	height: 100px;}

@@ -1,0 +1,56 @@
+.content{
+	/*height: 1000px;*/
+	    padding-bottom: 200px;
+	   background: url(../img/背景.jpg) no-repeat;
+	   background-size: 100% ;
+	  /*background: ;*/
+}
+
+.login {
+	float: right;
+	width: 320px;
+	text-align: center;
+	margin:5px 25px 0 0;
+	background: white;
+	border-radius: 15px;
+	padding-top: 15px;
+}
+
+.content span {
+	/*color: slategrey;*/
+	margin-top: 50px;
+	float: right;
+	width: 800px;
+	font-size: xx-large;
+	display: block;
+	text-align: right;
+	padding-right: 125px;
+}
+
+.login input {
+	height: 50px;
+	display: block;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+.textBox,
+.button {
+	width: 300px;
+	height: 40px;
+}
+
+.code1 {
+	float: left;
+	width: 200px;
+	/*margin-left: 20px;*/
+	position: relative;
+	left: 10px;
+}
+
+.code2 {
+	/*position: relative;*/
+	width: 110px;
+	float: left;
+	/*right: 150px;*/
+}

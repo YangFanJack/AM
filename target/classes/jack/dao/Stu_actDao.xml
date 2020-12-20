@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jack.dao.Stu_actDao">
+
+    <!--    开启二级缓存-->
+    <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+
+    <!--    新增报名-->
+    <insert id="insertStu_act" parameterType="Stu_act">
+        INSERT INTO `stu_act` (`stuId`,`actId`,`joinStatus`,`isSign`,`wordsTime`,`wordsContent`)
+        VALUES(#{stuId.id},#{actId.id},#{joinStatus},#{isSign},#{wordsTime},#{wordsContent});
+    </insert>
+
+    <!--    查询报名详情-->
+    <resultMap id="SAStuAct" type="Stu_act">
+        <result property="id" column="said"/>
+        <result property="joinStatus" column="joinStatus"/>
+        <result property="isSign" column="isSign"/>
+        <result property="wordsTime" column="wordsTime"/>
+        <result property="wordsContent" column="wordsContent"/>
+        <association property="actId" javaType="Activity">
+            <result property="id" column="aid"/>
+            <result property="orgCategory" column="orgCategory"/>
+        </association>
+        <association property="stuId" javaType="Student">
+            <result property="id" column="sid"/>
+        </association>
+    </resultMap>
+    <select id="selectStu_act" parameterType="map" resultMap="SAStuAct">
+        SELECT stu_act.id said,`joinStatus`,`isSign`,`wordsTime`,`wordsContent`,
+        activity.id aid,`orgCategory`,student.id sid
+        FROM `stu_act`,`student`,`activity`
+        <where>
+            stu_act.stuId=student.id AND stu_act.actId=activity.id
+            <if test="id != null and id != 0">
+                and stu_act.id=#{id}
+            </if>
+            <if test="stuId != null and stuId != 0">
+                and stuId=#{stuId} and actId = #{actId}
+            </if>
+        </where>
+    </select>
+
+
+    <!--    多报名分页查询-->
+    <select id="selectStu_acts" parameterType="map" resultMap="SAStuAct">
+        SELECT stu_act.id said,`joinStatus`,`isSign`,`wordsTime`,`wordsContent`,
+        activity.id aid,`orgCategory`,student.id sid
+        FROM `stu_act`,`student`,`activity`
+        <where>
+            stu_act.stuId=student.id AND stu_act.actId=activity.id
+            <if test="stuId != null and stuId != 0">
+                and stu_act.stuId = #{stuId}
+            </if>
+            <if test="actId != null and actId != 0">
+                and stu_act.actId = #{actId}
+            </if>
+        </where>
+        order by stu_act.id DESC
+        <if test="start != null and pageSize !=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+    <!--    计算数据总条数-->
+    <select id="selectStu_actsCount" parameterType="map" resultType="int">
+        select count(stu_act.id) from `stu_act`
+        <where>
+            <if test="stuId != null and stuId != 0">
+                stuId = #{stuId}
+            </if>
+            <if test="actId != null and actId != 0">
+                actId = #{actId}
+            </if>
+        </where>
+    </select>
+
+    <!--    更新报名：签到-->
+    <update id="updateStu_act" parameterType="Stu_act">
+        UPDATE `stu_act`
+        <set>
+            <if test="isSign != null and isSign != 0">
+                `isSign` = #{isSign},`joinStatus` = #{joinStatus},
+            </if>
+            <if test="wordsTime != null">
+                `wordsTime` = #{wordsTime},
+            </if>
+            <if test="wordsContent != null">
+                `wordsContent` = #{wordsContent},
+            </if>
+        </set>
+        WHERE `id` = #{id};
+    </update>
+
+
+    <!--    自动更新-->
+    <update id="autoUpdateOnTime">
+        UPDATE stu_act SET joinStatus=3
+        WHERE id IN (
+            SELECT sid from(
+                SELECT stu_act.id sid FROM stu_act,activity WHERE joinStatus=1 AND SYSDATE()>=STR_TO_DATE(actEndTime, '%Y-%m-%d %H:%i') AND activity.id=stu_act.actId
+            )AS a
+        );
+    </update>
+
+</mapper>

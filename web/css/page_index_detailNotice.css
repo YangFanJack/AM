@@ -1,0 +1,51 @@
+.content input{
+	width: 550px;
+	height: 35px;
+	margin-left:0px;
+}
+.content button{
+	width: 245px;
+	height: 35px;
+}
+.content{
+	text-align: center;
+	padding-bottom:200px ;
+}
+.noticeDetail{
+	text-align: center;
+	width: 800px;
+	margin: auto;
+	margin-top: 25px;
+	border: 1px solid;
+}
+.noticeDetail h4{
+	text-align: left;
+	padding-left: 5px;
+}
+.noticeDetail span:first-of-type{
+	padding-left: 5px;
+	text-align: left;
+	float:left;
+	width: 400px;
+	height: 35px;
+	/*border: 1px solid;*/
+	margin: 0px -1px -1px -1px ;
+}
+.noticeDetail span:last-of-type{
+	padding-left: 5px;
+	text-align: left;
+	float:right;
+	width: 400px;
+	height: 35px;
+	/*border: 1px solid;*/
+	margin: 0px -1px -1px -1px ;
+}
+.noticeDetail textarea{
+	resize: none;
+	background-color: white;
+	border:1px solid ;
+	width: 800px;
+	height: 100px;
+	margin: 0px -1px -15px -1px ;
+	padding-left: 5px;
+}
